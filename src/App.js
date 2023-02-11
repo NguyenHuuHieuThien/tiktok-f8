@@ -1,10 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Fragment } from 'react';
 import { publicRoutes } from '~/routes';
-import HomePage from './Page/Home';
-import FollowingPage from './Page/Following';
 import DefaultLayout from './Component/Layout/DefaultLayout';
-import { HeaderOnly } from './Component/Layout';
 
 function App() {
   return (
