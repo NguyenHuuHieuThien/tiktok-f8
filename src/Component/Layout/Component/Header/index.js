@@ -12,13 +12,24 @@ import {
   faMagnifyingGlass,
   faSign,
   faSignIn,
+  faEllipsisVertical,
+  faLanguage,
+  faCircleQuestion,
+  faKeyboard,
 } from '@fortawesome/free-solid-svg-icons';
 import { Wrapper as PopperWrapper } from '~/Component/Popper';
 import AccountItem from '~/Component/AccountItem';
 import Button from '~/Component/Button';
+import Menu from '~/Component/Popper/Menu';
 // import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 
 const cx = classNames.bind(styles);
+
+const MENU_ITEM = [
+  { icon: <FontAwesomeIcon icon={faLanguage} />, title: 'English' },
+  { icon: <FontAwesomeIcon icon={faCircleQuestion} />, title: 'Feedback and help', to: '/feedback' },
+  { icon: <FontAwesomeIcon icon={faKeyboard} />, title: 'Keyboard shortcuts' },
+];
 function Header() {
   const [searchResult, setSearchResult] = useState([]);
 
@@ -64,8 +75,15 @@ function Header() {
           </div>
         </Tippy>
         <div className={cx('action')}>
-          <Button text>Upload</Button>
+          <Button text href="google.com" target="_blank">
+            Upload
+          </Button>
           <Button primary>Log in</Button>
+          <Menu items={MENU_ITEM}>
+            <button className={cx('more-btn')}>
+              <FontAwesomeIcon icon={faEllipsisVertical} />
+            </button>
+          </Menu>
         </div>
       </div>
     </header>
