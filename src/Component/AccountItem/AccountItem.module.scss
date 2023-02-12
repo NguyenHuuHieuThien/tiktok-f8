@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  gap: 10px;
+  padding: 9px 16px;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(22, 24, 35, 0.03);
+    cursor: pointer;
+  }
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.info {
+  .name {
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 600;
+  }
+
+  .icon {
+    margin-left: 10px;
+    color: rgb(32, 213, 236);
+  }
+
+  .username {
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(22, 24, 35, 0.5);
+    font-weight: 400;
+  }
+}
