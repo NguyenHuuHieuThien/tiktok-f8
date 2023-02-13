@@ -101,8 +101,19 @@
 }
 
 .action {
+  display: flex;
+  justify-content: center;
+
   .custom-login {
     color: red;
+  }
+
+  .action-btn {
+    background: transparent;
+    font-size: 2.2rem;
+    color: #161823;
+    padding: 1px 12px;
+    cursor: pointer;
   }
 
   .more-btn {
@@ -113,5 +124,14 @@
     font-style: normal;
     padding: 4px 8px;
     background: transparent;
+  }
+
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 12px;
   }
 }
