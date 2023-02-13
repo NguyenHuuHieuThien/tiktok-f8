@@ -26,19 +26,47 @@ import Menu from '~/Component/Popper/Menu';
 const cx = classNames.bind(styles);
 
 const MENU_ITEM = [
-  { icon: <FontAwesomeIcon icon={faLanguage} />, title: 'English' },
+  {
+    icon: <FontAwesomeIcon icon={faLanguage} />,
+    title: 'English',
+    children: {
+      title: 'Language',
+      data: [
+        {
+          type: 'language',
+          code: 'en',
+          title: 'English',
+        },
+        { type: 'language', code: 'vi', title: 'Vietnamese' },
+      ],
+    },
+  },
   { icon: <FontAwesomeIcon icon={faCircleQuestion} />, title: 'Feedback and help', to: '/feedback' },
   { icon: <FontAwesomeIcon icon={faKeyboard} />, title: 'Keyboard shortcuts' },
 ];
 function Header() {
+  // useState
   const [searchResult, setSearchResult] = useState([]);
 
+  // useEffect
   useEffect(() => {
     setTimeout(() => {
       setSearchResult([1, 2, 3]);
     }, 3000);
   }, []);
 
+  // function
+
+  const handleMenuChange = (menuItem) => {
+    switch (menuItem.type) {
+      case 'language':
+        console.log(menuItem.code);
+        break;
+      default:
+        console.log(menuItem);
+        break;
+    }
+  };
   return (
     <header className={cx('wrapper')}>
       <div className={cx('inner')}>
@@ -79,7 +107,7 @@ function Header() {
             Upload
           </Button>
           <Button primary>Log in</Button>
-          <Menu items={MENU_ITEM}>
+          <Menu items={MENU_ITEM} onChange={handleMenuChange}>
             <button className={cx('more-btn')}>
               <FontAwesomeIcon icon={faEllipsisVertical} />
             </button>
