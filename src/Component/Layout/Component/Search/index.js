@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import HeadLessTippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'tippy.js/dist/tippy.css';
+import axios from 'axios';
 import { faCircleXmark, faSpinner, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 import { Wrapper as PopperWrapper } from '~/Component/Popper';
@@ -14,14 +15,25 @@ function Search() {
   const [searchResult, setSearchResult] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [showResult, setShowResult] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const inputRef = useRef();
 
   useEffect(() => {
+    if (!searchValue.trim()) {
+      return;
+    }
+    setLoading(true);
     setTimeout(() => {
-      setSearchResult([1, 2, 3]);
-    }, 3000);
-  }, []);
+      axios
+        .get(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchValue)}&type=less`)
+        .then((res) => {
+          setSearchResult(res.data.data);
+          setLoading(false);
+        })
+        .catch((err) => setLoading(false));
+    }, 1000);
+  }, [searchValue]);
 
   const handleHideResult = () => {
     setShowResult(false);
@@ -32,6 +44,7 @@ function Search() {
     setSearchResult([]);
     inputRef.current.focus();
   };
+  console.log(searchResult);
   return (
     <HeadLessTippy
       visible={searchResult.length > 0 && showResult}
@@ -41,11 +54,9 @@ function Search() {
         <div className={cx('search-result')} tabIndex="-1" {...attrs}>
           <PopperWrapper>
             <h4 className={cx('search-title')}>Accounts</h4>
-            <AccountItem />
-            <AccountItem />
-            <AccountItem />
-            <AccountItem />
-            <AccountItem />
+            {searchResult.map((item) => (
+              <AccountItem key={item.id} data={item} />
+            ))}
           </PopperWrapper>
         </div>
       )}
@@ -59,12 +70,12 @@ function Search() {
           onChange={(e) => setSearchValue(e.target.value)}
           spellCheck={false}
         />
-        {!!searchValue && (
+        {!!searchValue && !loading && (
           <button className={cx('clear')} onClick={handleClear}>
             <FontAwesomeIcon icon={faCircleXmark} />
           </button>
         )}
-        {/* <FontAwesomeIcon className={cx('loading')} icon={faSpinner} /> */}
+        {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
         <button className={cx('search-btn')}>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </button>
