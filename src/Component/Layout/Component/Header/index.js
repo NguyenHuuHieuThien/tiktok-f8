@@ -16,6 +16,9 @@ import {
   faSignOut,
   faCoins,
 } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+
+import config from '~/routes/config';
 import Button from '~/Component/Button';
 import Menu from '~/Component/Popper/Menu';
 import { InboxIcon, MessageIcon, UploadIcon } from '~/Component/Icon';
@@ -72,9 +75,11 @@ function Header() {
     <header className={cx('wrapper')}>
       <div className={cx('inner')}>
         {/* {logo} */}
-        <div className={cx('logo')}>
-          <img src={image.logo} alt="tiktok" />
-        </div>
+        <Link to={config.home}>
+          <div className={cx('logo')}>
+            <img src={image.logo} alt="tiktok" />
+          </div>
+        </Link>
         {/* {search} */}
         <Search />
         <div className={cx('action')}>

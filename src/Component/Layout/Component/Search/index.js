@@ -3,11 +3,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import HeadLessTippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'tippy.js/dist/tippy.css';
-import axios from 'axios';
+import * as request from '~/utils/request';
 import { faCircleXmark, faSpinner, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 import { Wrapper as PopperWrapper } from '~/Component/Popper';
 import AccountItem from '~/Component/AccountItem';
+import * as SearchService from '~/apiService/seachService';
+import { useDebounce } from '~/Hooks';
 import styles from './Search.module.scss';
 
 const cx = classNames.bind(styles);
@@ -16,27 +18,39 @@ function Search() {
   const [searchValue, setSearchValue] = useState('');
   const [showResult, setShowResult] = useState(true);
   const [loading, setLoading] = useState(false);
+  const debounced = useDebounce(searchValue, 500);
+  console.log(debounced);
 
   const inputRef = useRef();
 
   useEffect(() => {
-    if (!searchValue.trim()) {
+    if (!debounced.trim()) {
       return;
     }
     setLoading(true);
-    setTimeout(() => {
-      axios
-        .get(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchValue)}&type=less`)
-        .then((res) => {
-          setSearchResult(res.data.data);
-          setLoading(false);
-        })
-        .catch((err) => setLoading(false));
-    }, 1000);
-  }, [searchValue]);
+    const fetchAPI = async () => {
+      const result = await SearchService.search(searchValue);
+      setSearchResult(result.data);
+      setLoading(false);
+    };
+
+    fetchAPI();
+  }, [debounced]);
 
   const handleHideResult = () => {
     setShowResult(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const handleChange = (e) => {
+    const searchValue = e.target.value;
+    if (searchValue.startsWith(' ')) {
+      return;
+    }
+    setSearchValue(searchValue);
   };
 
   const handleClear = () => {
@@ -67,7 +81,7 @@ function Search() {
           onFocus={() => setShowResult(true)}
           value={searchValue}
           placeholder="search accounts and videos"
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => handleChange(e)}
           spellCheck={false}
         />
         {!!searchValue && !loading && (
@@ -76,7 +90,7 @@ function Search() {
           </button>
         )}
         {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
-        <button className={cx('search-btn')}>
+        <button onMouseDown={(e) => e.preventDefault()} className={cx('search-btn')}>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </button>
       </div>
