@@ -23,7 +23,6 @@ function Button({
     onClick,
     ...passProps,
   };
-  console.log(passProps);
   //   remove event listener when btn is disabled
   if (disabled) {
     Object.keys(props).forEach((key) => {
