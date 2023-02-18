@@ -5,6 +5,7 @@ const httpRequest = axios.create({
 
 export const get = async (url, option = {}) => {
   const response = await httpRequest.get(url, option);
-  return response.data;
+  console.log(response.data);
 };
+
 export default httpRequest;

@@ -28,6 +28,7 @@ function Search() {
     setLoading(true);
     const fetchAPI = async () => {
       const result = await SearchService.search(searchValue);
+      console.log(result.data);
       setSearchResult(result.data);
       setLoading(false);
     };
