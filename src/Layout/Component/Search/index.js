@@ -3,12 +3,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import HeadLessTippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'tippy.js/dist/tippy.css';
-import * as request from '~/utils/request';
 import { faCircleXmark, faSpinner, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 import { Wrapper as PopperWrapper } from '~/Component/Popper';
 import AccountItem from '~/Component/AccountItem';
-import * as SearchService from '~/apiService/seachService';
+import * as SearchService from '~/Service/searchService';
 import { useDebounce } from '~/Hooks';
 import styles from './Search.module.scss';
 
@@ -34,15 +33,16 @@ function Search() {
     };
 
     fetchAPI();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounced]);
 
   const handleHideResult = () => {
     setShowResult(false);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  // };
 
   const handleChange = (e) => {
     const searchValue = e.target.value;

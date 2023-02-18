@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
@@ -18,7 +18,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
-import config from '~/routes/config';
+import config from '~/Config/index';
 import Button from '~/Component/Button';
 import Menu from '~/Component/Popper/Menu';
 import { InboxIcon, MessageIcon, UploadIcon } from '~/Component/Icon';
@@ -75,7 +75,7 @@ function Header() {
     <header className={cx('wrapper')}>
       <div className={cx('inner')}>
         {/* {logo} */}
-        <Link to={config.home}>
+        <Link to={config.routes.home}>
           <div className={cx('logo')}>
             <img src={image.logo} alt="tiktok" />
           </div>
